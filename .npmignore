@@ -1,0 +1,13 @@
+/src
+.babelrc
+README.md
+package-lock.json
+webpack.config.js
+/public
+/coverage
+.prettierrc 
+.travis.yml
+**/.DS_Store
+.expo-shared
+babel.config.js    
+tsconfig.json      
