@@ -2,7 +2,7 @@
 
 # Frames React Native
 
-[![codecov](https://codecov.io/gh/checkout/frames-react-native/branch/master/graph/badge.svg?token=KYGJUF3OM8)](https://codecov.io/gh/checkout/frames-react-native)
+[![codecov](https://codecov.io/gh/checkout/frames-react-native/branch/main/graph/badge.svg?token=0UA86P7NKO)](https://codecov.io/gh/checkout/frames-react-native)
 [![Test and Deploy](https://github.com/checkout/frames-react-native/actions/workflows/cd.yml/badge.svg)](https://github.com/checkout/frames-react-native/actions/workflows/cd.yml)
 
 <p align="center">
