@@ -5,9 +5,23 @@
 [![codecov](https://codecov.io/gh/checkout/frames-react-native/branch/main/graph/badge.svg?token=0UA86P7NKO)](https://codecov.io/gh/checkout/frames-react-native)
 [![Test and Deploy](https://github.com/checkout/frames-react-native/actions/workflows/cd.yml/badge.svg)](https://github.com/checkout/frames-react-native/actions/workflows/cd.yml)
 
+Start accepting online card payments in just a few minutes with Frames. It's quick and easy to integrate, accepts online card payments from all major credit cards, and is customizable to your brand.
+
+
 <p align="center">
 	<img src="https://s3.gifyu.com/images/Untitled62eae8e0234fa129.gif" alt="Demo frames react native"/>
 </p>
+
+# :nerd_face: How does it work?
+- Accepting card payments generally has 2 main stages. The first is collecting the *card details securely* (client-side), and the second is *processing a payment* via the API (server-side). Frames is addressing only the first stage. The server-side interaction can easily be achieved by using our various [server side SDKs](https://docs.checkout.com/integrate/sdks#SDKs-WebSDKlibraries). 
+- The Frames React Nave project provides customisable inputs for the card details with the core purpose of tokenising the sensitive information and giving back a secure token (alongside various card metadata, like the BIN information).
+
+>Frames is meant to be used in conjunction with the rest of your checkout page elements as opposed to being an independent view. That way, you have full control of the UI, and you can implement other payment methods or collect other details (like billing details) alongside it.
+
+<p align="center">
+	<img src="https://s3.gifyu.com/images/FramesforAndroid.png" alt="Demo frames react native" width="500px"/>
+</p>
+
 
 # :rocket: Install
 
