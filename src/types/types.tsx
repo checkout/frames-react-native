@@ -3,6 +3,8 @@ import {
   TextInputProps,
   ViewStyle,
   StyleProp,
+  TouchableOpacityProps,
+  TextProps,
 } from "react-native";
 
 export interface Schemes {
@@ -176,4 +178,9 @@ export interface FrameCardTokenizationFailedEvent {
   error_codes: Array<string>;
   error_type: string;
   request_id: string;
+}
+
+export interface SubmitButtonProps extends TouchableOpacityProps {
+  title: string;
+  textStyle?: TextProps;
 }

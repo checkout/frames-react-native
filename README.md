@@ -7,21 +7,20 @@
 
 Start accepting online card payments in just a few minutes with Frames. It's quick and easy to integrate, accepts online card payments from all major credit cards, and is customizable to your brand.
 
-
 <p align="center">
 	<img src="https://s3.gifyu.com/images/Untitled62eae8e0234fa129.gif" alt="Demo frames react native"/>
 </p>
 
 # :nerd_face: How does it work?
-- Accepting card payments generally has 2 main stages. The first is collecting the *card details securely* (client-side), and the second is *processing a payment* via the API (server-side). Frames is addressing only the first stage. The server-side interaction can easily be achieved by using our various [server side SDKs](https://docs.checkout.com/integrate/sdks#SDKs-WebSDKlibraries). 
+
+- Accepting card payments generally has 2 main stages. The first is collecting the _card details securely_ (client-side), and the second is _processing a payment_ via the API (server-side). Frames is addressing only the first stage. The server-side interaction can easily be achieved by using our various [server side SDKs](https://docs.checkout.com/integrate/sdks#SDKs-WebSDKlibraries).
 - The Frames React Nave project provides customisable inputs for the card details with the core purpose of tokenising the sensitive information and giving back a secure token (alongside various card metadata, like the BIN information).
 
->Frames is meant to be used in conjunction with the rest of your checkout page elements as opposed to being an independent view. That way, you have full control of the UI, and you can implement other payment methods or collect other details (like billing details) alongside it.
+> Frames is meant to be used in conjunction with the rest of your checkout page elements as opposed to being an independent view. That way, you have full control of the UI, and you can implement other payment methods or collect other details (like billing details) alongside it.
 
 <p align="center">
 	<img src="https://s3.gifyu.com/images/FramesforAndroid.png" alt="Demo frames react native" width="500px"/>
 </p>
-
 
 # :rocket: Install
 
@@ -52,7 +51,7 @@ import {
   ExpiryDate,
   Cvv,
   SubmitButton,
-} from "frames-react-native";
+} from "./dist/index";
 
 export default function App() {
   return (
@@ -76,13 +75,12 @@ export default function App() {
           <Cvv style={styles.cvv} placeholderTextColor="#9898A0" />
         </View>
 
-        <TouchableHighlight style={styles.button}>
-          <SubmitButton
-            title="Pay Now"
-            onPress={() => console.log("merchant action")}
-            color="#fff"
-          />
-        </TouchableHighlight>
+        <SubmitButton
+          title="Pay Now"
+          style={styles.button}
+          textStyle={styles.buttonText}
+          onPress={() => console.log("merchant action")}
+        />
       </Frames>
     </View>
   );
@@ -91,7 +89,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000001",
+    backgroundColor: "#000000",
     alignItems: "center",
     justifyContent: "flex-start",
     paddingTop: 80,
@@ -130,11 +128,14 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    width: "100%",
     borderRadius: 5,
-    backgroundColor: "#0E84FF",
     marginTop: 20,
     justifyContent: "center",
+    backgroundColor: "#4285F4",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
   },
 });
 ```

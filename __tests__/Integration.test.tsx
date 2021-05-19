@@ -15,7 +15,7 @@ describe("CardNumber", () => {
   it("triggers the card tokenization", async () => {
     const tokenized = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: PK,
@@ -26,14 +26,18 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={() => {}} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
       </Frames>
     );
 
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "4242424242424242");
     fireEvent.changeText(expiryDate, "1128");
     fireEvent.changeText(cvv, "100");
@@ -47,7 +51,7 @@ describe("CardNumber", () => {
   it("fails the card tokenization when the card number is invalid", async () => {
     const failed = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: PK,
@@ -58,14 +62,18 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={() => {}} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
       </Frames>
     );
 
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "12345");
     fireEvent.changeText(expiryDate, "1128");
     fireEvent.changeText(cvv, "100");
@@ -77,7 +85,13 @@ describe("CardNumber", () => {
 
   it("throws when the pay button is outside of context", async () => {
     expect(() => {
-      render(<SubmitButton title="Pay Now" onPress={() => {}} />);
+      render(
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
+      );
     }).toThrow(
       "It looks like you are trying to render the SubmitButton outside of the Frames Component."
     );
@@ -86,7 +100,7 @@ describe("CardNumber", () => {
   it("throws allow then use of the onPress handler", async () => {
     const press = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: PK,
@@ -109,13 +123,17 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={press} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={press}
+        />
       </Frames>
     );
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "4242424242424242");
     fireEvent.changeText(expiryDate, "1128");
     fireEvent.changeText(cvv, "100");
@@ -128,7 +146,7 @@ describe("CardNumber", () => {
   it("fails tokenization", async () => {
     const failed = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: "pk_test_baabd05f-1cdb-43d9-851e-635a79f6e7ad", // this account does not have Visa enabled
@@ -143,14 +161,18 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={() => {}} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
       </Frames>
     );
 
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "4242424242424242");
     fireEvent.changeText(expiryDate, "0628");
     fireEvent.changeText(cvv, "100");
@@ -163,7 +185,7 @@ describe("CardNumber", () => {
   it("triggers the card tokenization with billing details", async () => {
     const tokenized = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: PK,
@@ -186,14 +208,18 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={() => {}} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
       </Frames>
     );
 
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "4242424242424242");
     fireEvent.changeText(expiryDate, "1128");
     fireEvent.changeText(cvv, "100");
@@ -209,7 +235,7 @@ describe("CardNumber", () => {
   it("triggers the card tokenization with amex", async () => {
     const tokenized = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: PK,
@@ -219,14 +245,18 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={() => {}} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
       </Frames>
     );
 
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "378282246310005");
     fireEvent.changeText(expiryDate, "1128");
     fireEvent.changeText(cvv, "1000");
@@ -239,7 +269,7 @@ describe("CardNumber", () => {
   it("triggers the card tokenization with minimal billing details", async () => {
     const tokenized = jest.fn();
 
-    const { getByPlaceholderText, getByText } = render(
+    const { getByPlaceholderText, getByTestId } = render(
       <Frames
         config={{
           publicKey: PK,
@@ -260,14 +290,18 @@ describe("CardNumber", () => {
         <CardNumber placeholder="card-number" />
         <ExpiryDate placeholder="expiry-date" />
         <Cvv placeholder="cvv" />
-        <SubmitButton title="Pay Now" onPress={() => {}} />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
       </Frames>
     );
 
     let cardNumber = getByPlaceholderText("card-number");
     let expiryDate = getByPlaceholderText("expiry-date");
     let cvv = getByPlaceholderText("cvv");
-    let pay = getByText("Pay Now");
+    let pay = getByTestId("submit-button");
     fireEvent.changeText(cardNumber, "4242424242424242");
     fireEvent.changeText(expiryDate, "1128");
     fireEvent.changeText(cvv, "100");
@@ -319,7 +353,13 @@ describe("CardNumber", () => {
   it("triggers throws if you render the submit button outside of context", async () => {
     let exception;
     try {
-      render(<SubmitButton title="Pay Now" onPress={() => {}} />);
+      render(
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
+      );
     } catch (e) {
       exception = e;
     }

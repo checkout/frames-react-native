@@ -1,29 +1,42 @@
 import React from "react";
-import { Button, ButtonProps } from "react-native";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { SubmitButtonProps } from "../types/types";
 import { FramesConsumer } from "../Frames";
 
-const SubmitButton: React.FunctionComponent<ButtonProps> = (props) => {
+const SubmitButton: React.FunctionComponent<SubmitButtonProps> = (props) => {
   return (
     <FramesConsumer>
       {({ submitCard }) => {
         if (!submitCard) {
           throw "It looks like you are trying to render the SubmitButton outside of the Frames Component.";
         }
+
+        const { textStyle: textStyle, title: title, ...touchableProps } = props;
+
         return (
-          <Button
-            {...props}
-            title={props.title}
+          <TouchableOpacity
+            {...touchableProps}
+            style={[styles.buttonContainer, touchableProps.style]}
             onPress={(e) => {
               submitCard();
               if (props.onPress) props.onPress(e);
             }}
           >
-            {props.children}
-          </Button>
+            <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+          </TouchableOpacity>
         );
       }}
     </FramesConsumer>
   );
 };
+
+const styles = StyleSheet.create({
+  buttonText: {
+    textAlign: "center",
+  },
+  buttonContainer: {
+    justifyContent: "center",
+  },
+});
 
 export default SubmitButton;
