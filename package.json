@@ -11,9 +11,7 @@
   "dependencies": {
     "creditcards": "^3.1.0",
     "creditcards-types": "^2.2.2",
-    "node-fetch": "^2.6.1",
-    "react-native-get-random-values": "^1.7.0",
-    "uuid": "^8.3.2"
+    "node-fetch": "^2.6.1"
   },
   "keywords": [],
   "author": "",
