@@ -1,5 +1,3 @@
-❗️BETA
-
 # Frames React Native
 
 [![codecov](https://codecov.io/gh/checkout/frames-react-native/branch/main/graph/badge.svg?token=0UA86P7NKO)](https://codecov.io/gh/checkout/frames-react-native)
