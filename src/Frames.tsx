@@ -18,6 +18,10 @@ const Frames = (props: FramesProps) => {
     framesReducer,
     {
       cardNumber: null,
+      cardBin: {
+        bin: null,
+        scheme: null,
+      },
       cardType: null,
       cardIcon: undefined,
       expiryDate: null,
@@ -62,6 +66,14 @@ const Frames = (props: FramesProps) => {
       );
     }
   };
+
+  useEffect(() => {
+    if (state.cardBin.bin !== null) {
+      if (props.config.debug)
+        console.info(`Emitting "cardBinChanged"`, state.cardBin);
+      if (props.cardBinChanged) props.cardBinChanged(state.cardBin);
+    }
+  }, [state.cardBin]);
 
   useEffect(() => {
     if (state.cardNumber !== null) {

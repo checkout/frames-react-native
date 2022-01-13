@@ -9,7 +9,7 @@ import {
 } from "./card";
 import { getFormattedDate } from "./date";
 import { FramesState } from "../types/types";
-import { CARD_CHANGE, DATE_CHANGE, CVV_CHANGE } from "./actions";
+import { CARD_CHANGE, DATE_CHANGE, CVV_CHANGE, BIN_CHANGE } from "./actions";
 
 export const framesReducer = (prevState: FramesState, dispatchArg?: any) => {
   switch (dispatchArg.type) {
@@ -54,6 +54,15 @@ export const framesReducer = (prevState: FramesState, dispatchArg?: any) => {
             isValidCvv(dispatchArg.payload, prevState.cardNumber) &&
             prevState.validation.cardNumber &&
             prevState.validation.expiryDate,
+        },
+      };
+    case BIN_CHANGE:
+      return {
+        ...prevState,
+        cardBin: {
+          ...prevState.cardBin,
+          bin: dispatchArg.payload + "",
+          scheme: getCardType(dispatchArg.payload),
         },
       };
     default:

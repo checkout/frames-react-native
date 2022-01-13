@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TextInput, Image } from "react-native";
 
-import { CARD_CHANGE } from "../utils/actions";
+import { BIN_CHANGE, CARD_CHANGE } from "../utils/actions";
 import { FramesConsumer } from "../Frames";
 import { FramesFieldProps } from "../types/types";
 import { DEFAULT_CARD_NUMBER_PLACEHOLDER } from "../utils/constants";
@@ -25,6 +25,16 @@ const CardNumber: React.FC<FramesFieldProps> = (props) => {
               style={[styles.cardNumber, props.style]}
               onChangeText={(val: string) => {
                 dispatch({ type: CARD_CHANGE, payload: val });
+                if (
+                  val.replace(/[^0-9]/g, "").length >= 8 &&
+                  val.replace(/[^0-9]/g, "").substring(0, 8) !==
+                    state.cardBin.bin
+                ) {
+                  dispatch({
+                    type: BIN_CHANGE,
+                    payload: val.replace(/[^0-9]/g, "").substring(0, 8),
+                  });
+                }
               }}
             />
             <View style={styles.schemeIconContainer}>

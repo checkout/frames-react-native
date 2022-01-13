@@ -48,6 +48,37 @@ describe("CardNumber", () => {
     expect(tokenized.mock.calls[0][0].last4).toEqual("4242");
   });
 
+  it("shared the card bin", async () => {
+    const binChange = jest.fn();
+
+    const { getByPlaceholderText, getByTestId } = render(
+      <Frames
+        config={{
+          publicKey: PK,
+          debug: true,
+        }}
+        cardTokenized={() => {}}
+        cardBinChanged={binChange}
+      >
+        <CardNumber placeholder="card-number" />
+        <ExpiryDate placeholder="expiry-date" />
+        <Cvv placeholder="cvv" />
+        <SubmitButton
+          title="Pay Now"
+          testID={"submit-button"}
+          onPress={() => {}}
+        />
+      </Frames>
+    );
+
+    let cardNumber = getByPlaceholderText("card-number");
+    let expiryDate = getByPlaceholderText("expiry-date");
+    let cvv = getByPlaceholderText("cvv");
+    let pay = getByTestId("submit-button");
+    fireEvent.changeText(cardNumber, "42424242");
+    expect(binChange).toHaveBeenCalledTimes(1);
+  });
+
   it("fails the card tokenization when the card number is invalid", async () => {
     const failed = jest.fn();
 

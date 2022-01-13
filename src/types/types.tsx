@@ -34,6 +34,7 @@ interface Validation {
 
 export interface FramesState {
   cardNumber: string;
+  cardBin: CardBinChangedEvent;
   cardIcon: ImageSourcePropType;
   cardType: string;
   expiryDate: string;
@@ -91,6 +92,7 @@ export interface FramesProps extends ViewStyle {
   cardValidationChanged?: (e: FrameCardValidationChangedEvent) => void;
   cardTokenized: (e: FrameCardTokenizedEvent) => void;
   cardTokenizationFailed?: (e: FrameCardTokenizationFailedEvent) => void;
+  cardBinChanged?: (e: CardBinChangedEvent) => void;
 }
 
 export interface FrameCardValidationChangedEvent {
@@ -178,6 +180,11 @@ export interface FrameCardTokenizationFailedEvent {
   error_codes: Array<string>;
   error_type: string;
   request_id: string;
+}
+
+export interface CardBinChangedEvent {
+  bin: string;
+  scheme: string;
 }
 
 export interface SubmitButtonProps extends TouchableOpacityProps {
