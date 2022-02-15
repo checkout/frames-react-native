@@ -37,9 +37,11 @@ const CardNumber: React.FC<FramesFieldProps> = (props) => {
                 }
               }}
             />
-            <View style={styles.schemeIconContainer}>
-              <Image style={styles.scheme} source={state.cardIcon} />
-            </View>
+            {props?.hideIcon ? null : (
+              <View style={styles.schemeIconContainer}>
+                <Image style={styles.scheme} source={state.cardIcon} />
+              </View>
+            )}  
           </View>
         );
       }}
