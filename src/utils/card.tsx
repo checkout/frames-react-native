@@ -3,17 +3,15 @@ const Card = require("creditcards/card");
 const Cvc = require("creditcards/cvc");
 const expiration = require("creditcards/expiration");
 import { EXPIRY_DATE_DELIMITER } from "./constants";
-const acceptedTypes = [
-  require("creditcards-types/types/visa"),
-  require("creditcards-types/types/mastercard"),
-  require("creditcards-types/types/american-express"),
-  require("creditcards-types/types/discover"),
-  require("creditcards-types/types/jcb"),
-  require("creditcards-types/types/diners-club"),
-  require("creditcards-types/types/maestro"),
-];
-const cards = new Card(acceptedTypes);
-const cvc = new Cvc(acceptedTypes);
+import creditcardsTypes from "creditcards-types";
+import mada from "creditcards-types/types/mada";
+
+const types = [mada, ...creditcardsTypes];
+
+const cards = new Card(types);
+const cvc = new Cvc(types);
+
+const extendedCardTypeMapWhitelist = { 6011111111111117: "Discover" };
 
 export const Icons = {
   Visa: require("../icons/visa.png"),
@@ -23,6 +21,7 @@ export const Icons = {
   JCB: require("../icons/jcb.png"),
   "Diners Club": require("../icons/dinersclub.png"),
   Maestro: require("../icons/maestro.png"),
+  Mada: require("../icons/mada.png"),
 };
 
 export const formatCard = (text: string): string => {
@@ -31,7 +30,9 @@ export const formatCard = (text: string): string => {
 
 export const getCardType = (text: string) => {
   const sanitizedValue = cards.parse(text);
-  const cardType: IconKey = cards.type(sanitizedValue, true);
+  const cardType: IconKey =
+    extendedCardTypeMapWhitelist[sanitizedValue] ||
+    cards.type(sanitizedValue, true);
   return cardType;
 };
 

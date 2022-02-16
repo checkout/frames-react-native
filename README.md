@@ -63,7 +63,11 @@ export default function App() {
           alert(e.token);
         }}
       >
-        <CardNumber style={styles.cardNumber} placeholderTextColor="#9898A0" />
+        <CardNumber
+          style={styles.cardNumber}
+          placeholderTextColor="#9898A0"
+          // showIcon={false} in case you don't want to see the card scheme logo
+        />
 
         <View style={styles.dateAndCode}>
           <ExpiryDate

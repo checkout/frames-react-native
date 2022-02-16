@@ -15,6 +15,7 @@ export interface Schemes {
   JCB: string;
   "Diners Club": string;
   Maestro: string;
+  Mada: string;
 }
 
 export interface CardNumberState {
@@ -24,6 +25,10 @@ export interface CardNumberState {
 }
 
 export type FramesFieldProps = Omit<TextInputProps, "value" | "onChangeText">;
+
+export interface FramesCardFieldProps extends FramesFieldProps {
+  showIcon?: boolean;
+}
 
 interface Validation {
   cardNumber: boolean;
@@ -138,7 +143,8 @@ export type Scheme =
   | "AMERICAN EXPRESS"
   | "Diners Club International"
   | "Maestro"
-  | "Discover";
+  | "Discover"
+  | "Mada";
 
 export type CardType = "Credit" | "Debit" | "Prepaid" | "Charge";
 export type CardCategory = "Consumer" | "Commercial";
