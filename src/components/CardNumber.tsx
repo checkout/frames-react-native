@@ -3,10 +3,10 @@ import { StyleSheet, View, TextInput, Image } from "react-native";
 
 import { BIN_CHANGE, CARD_CHANGE } from "../utils/actions";
 import { FramesConsumer } from "../Frames";
-import { FramesFieldProps } from "../types/types";
+import { FramesCardFieldProps } from "../types/types";
 import { DEFAULT_CARD_NUMBER_PLACEHOLDER } from "../utils/constants";
 
-const CardNumber: React.FC<FramesFieldProps> = (props) => {
+const CardNumber: React.FC<FramesCardFieldProps> = (props) => {
   return (
     <FramesConsumer>
       {({ state, dispatch }) => {
@@ -37,9 +37,13 @@ const CardNumber: React.FC<FramesFieldProps> = (props) => {
                 }
               }}
             />
-            <View style={styles.schemeIconContainer}>
-              <Image style={styles.scheme} source={state.cardIcon} />
-            </View>
+            {props.showIcon === undefined || props.showIcon ? (
+              <View style={styles.schemeIconContainer}>
+                {state.cardIcon ? (
+                  <Image style={styles.scheme} source={state.cardIcon} />
+                ) : undefined}
+              </View>
+            ) : undefined}
           </View>
         );
       }}
