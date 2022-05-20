@@ -6,7 +6,7 @@
 Start accepting online card payments in just a few minutes with Frames. It's quick and easy to integrate, accepts online card payments from all major credit cards, and is customizable to your brand.
 
 <p align="center">
-	<img src="https://s3.gifyu.com/images/Untitled62eae8e0234fa129.gif" alt="Demo frames react native"/>
+	<img src="https://i.ibb.co/zbjF2NQ/React-Native-Gif.gif" alt="Demo frames react native"/>
 </p>
 
 # :nerd_face: How does it work?
