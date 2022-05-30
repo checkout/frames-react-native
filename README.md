@@ -49,7 +49,7 @@ import {
   ExpiryDate,
   Cvv,
   SubmitButton,
-} from "./dist/index";
+} from "frames-react-native";
 
 export default function App() {
   return (
