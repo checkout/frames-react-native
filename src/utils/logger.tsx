@@ -3,8 +3,8 @@ import { Platform } from "react-native";
 import {
   LIVE_LOGGER,
   SANDBOX_LOGGER,
-  MBC_LIVE_SECRET_KEY_REGEX,
-  NAS_LIVE_SECRET_KEY_REGEX,
+  MBC_LIVE_PUBLIC_KEY_REGEX,
+  NAS_LIVE_PUBLIC_KEY_REGEX,
 } from "./constants";
 import { FramesConfig } from "../types/types";
 
@@ -35,8 +35,8 @@ export const log = async (
           osVersion: Platform.Version,
           sdkVersion: pjson.version,
           environment:
-            MBC_LIVE_SECRET_KEY_REGEX.test(config.publicKey) ||
-            NAS_LIVE_SECRET_KEY_REGEX.test(config.publicKey)
+            MBC_LIVE_PUBLIC_KEY_REGEX.test(config.publicKey) ||
+            NAS_LIVE_PUBLIC_KEY_REGEX.test(config.publicKey)
               ? `production`
               : `sandbox`,
         },
@@ -70,6 +70,6 @@ const generateUUID = () => {
 };
 
 export const getEnvironment = (key: string) =>
-  MBC_LIVE_SECRET_KEY_REGEX.test(key) || NAS_LIVE_SECRET_KEY_REGEX.test(key)
+  MBC_LIVE_PUBLIC_KEY_REGEX.test(key) || NAS_LIVE_PUBLIC_KEY_REGEX.test(key)
     ? LIVE_LOGGER
     : SANDBOX_LOGGER;
