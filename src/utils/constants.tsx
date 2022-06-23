@@ -12,4 +12,4 @@ export const SANDBOX_LOGGER =
   "https://cloudevents.integration.sandbox.checkout.com/logging";
 export const MBC_LIVE_PUBLIC_KEY_REGEX =
   /^pk_?(\w{8})-(\w{4})-(\w{4})-(\w{4})-(\w{12})$/;
-export const NAS_LIVE_PUBLIC_KEY_REGEX = /^pk_sbox_?[a-z2-7]{26}[a-z2-7*#$=]$/;
+export const NAS_LIVE_PUBLIC_KEY_REGEX = /^pk_?[a-z2-7]{26}[a-z2-7*#$=]$/;
