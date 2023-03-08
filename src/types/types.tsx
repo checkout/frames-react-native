@@ -4,8 +4,7 @@ import {
   ViewStyle,
   StyleProp,
   TouchableOpacityProps,
-  TextProps,
-  TextStyle
+  TextStyle,
 } from "react-native";
 
 export interface Schemes {
