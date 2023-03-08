@@ -5,6 +5,7 @@ import {
   StyleProp,
   TouchableOpacityProps,
   TextProps,
+  TextStyle
 } from "react-native";
 
 export interface Schemes {
@@ -195,5 +196,5 @@ export interface CardBinChangedEvent {
 
 export interface SubmitButtonProps extends TouchableOpacityProps {
   title: string;
-  textStyle?: TextProps;
+  textStyle?: TextStyle;
 }
