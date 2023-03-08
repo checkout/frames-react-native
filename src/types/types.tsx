@@ -179,7 +179,7 @@ export interface FrameCardTokenizedEvent {
   product_type?: string;
   billing_address?: GatewayBillingAddress;
   phone?: GatewayPhone;
-  name?: GatewayBillingAddress;
+  name?: string;
 }
 
 export interface FrameCardTokenizationFailedEvent {
