@@ -88,10 +88,15 @@ export interface FrameValidationChangedParams {
   isEmpty: boolean;
 }
 
+export interface FramesRef {
+  submitCard: () => void;
+}
+
 export interface FramesProps extends ViewStyle {
   style?: StyleProp<ViewStyle>;
   children: any;
   config: FramesConfig;
+  ref?: FramesRef;
   frameValidationChanged?: (e: FrameValidationChangedParams) => void;
   paymentMethodChanged?: (e: PaymentMethodChangeParams) => void;
   cardValidationChanged?: (e: FrameCardValidationChangedEvent) => void;
