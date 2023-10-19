@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useImperativeHandle } from "react";
 import { View, StyleSheet } from "react-native";
 import { framesReducer } from "./utils/reducer";
 import {
@@ -6,13 +6,14 @@ import {
   FramesProps,
   FramesState,
   FramesDispatch,
+  FramesRef,
 } from "./types/types";
 import { log } from "./utils/logger";
 import { tokenize, formatDataForTokenization } from "./utils/http";
 
 export const FramesContext = React.createContext({} as FramesContextType);
 
-const Frames = (props: FramesProps) => {
+const Frames = React.forwardRef<FramesRef, FramesProps>((props, ref) => {
   // @ts-ignore
   const [state, dispatch]: [FramesState, FramesDispatch] = React.useReducer(
     framesReducer,
@@ -154,6 +155,8 @@ const Frames = (props: FramesProps) => {
     }
   }, [state.validation.card]);
 
+  useImperativeHandle(ref, () => ({ submitCard }));
+
   return (
     <View style={[styles.container, props.style]}>
       <FramesContext.Provider value={{ state, dispatch, submitCard }}>
@@ -161,7 +164,7 @@ const Frames = (props: FramesProps) => {
       </FramesContext.Provider>
     </View>
   );
-};
+});
 
 export default Frames;
 

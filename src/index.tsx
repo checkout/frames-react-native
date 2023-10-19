@@ -4,3 +4,4 @@ export { default as ExpiryDate } from "./components/ExpiryDate";
 export { default as Cvv } from "./components/Cvv";
 export { default as SubmitButton } from "./components/SubmitButton";
 export { default as FramesConsumer } from "./Frames";
+export type { FramesRef } from "./types/types";
