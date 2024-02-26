@@ -1,0 +1,11 @@
+export declare const CARD_NUMBER_DELIMITER = " ";
+export declare const EXPIRY_DATE_DELIMITER = "/";
+export declare const DEFAULT_CARD_NUMBER_PLACEHOLDER = "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022";
+export declare const DEFAULT_CARD_EXPIRY_DATE_PLACEHOLDER = "MM/YY";
+export declare const DEFAULT_CVV_PLACEHOLDER = "\u2022\u2022\u2022";
+export declare const SANDBOX_BASE_URL = "https://api.sandbox.checkout.com";
+export declare const LIVE_BASE_URL = "https://api.checkout.com";
+export declare const LIVE_LOGGER = "https://cloudevents.integration.checkout.com/logging";
+export declare const SANDBOX_LOGGER = "https://cloudevents.integration.sandbox.checkout.com/logging";
+export declare const MBC_LIVE_PUBLIC_KEY_REGEX: RegExp;
+export declare const NAS_LIVE_PUBLIC_KEY_REGEX: RegExp;
