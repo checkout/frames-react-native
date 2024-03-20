@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { SubmitButtonProps } from "../types/types";
 import { FramesConsumer } from "../Frames";
 
-const SubmitButton: React.FunctionComponent<SubmitButtonProps> = (props) => {
+const SubmitButton: React.FunctionComponent<SubmitButtonProps> = (props: any) => {
   return (
     <FramesConsumer>
       {({ submitCard }) => {
@@ -18,7 +18,7 @@ const SubmitButton: React.FunctionComponent<SubmitButtonProps> = (props) => {
             {...touchableProps}
             style={[styles.buttonContainer, touchableProps.style]}
             onPress={(e) => {
-              submitCard();
+               props.allowCharge && submitCard();
               if (props.onPress) props.onPress(e);
             }}
           >
