@@ -48,6 +48,9 @@
     ],
     "coverageReporters": [
       "lcov"
-    ]
+    ],
+    "transform": {
+      "\\.png$": "<rootDir>/__mocks__/fileTransformer.js"
+    }
   }
 }
