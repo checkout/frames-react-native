@@ -16,23 +16,23 @@ const CardNumber: React.FC<FramesCardFieldProps> = (props) => {
         return (
           <View style={styles.wrapper}>
             <TextInput
-              autoCompleteType="cc-number"
+              autoComplete="cc-number"
               keyboardType="number-pad"
               returnKeyType="done"
               placeholder={DEFAULT_CARD_NUMBER_PLACEHOLDER}
               {...props}
               value={state.cardNumber}
               style={[styles.cardNumber, props.style]}
-              onChangeText={(val: string) => {
-                dispatch({ type: CARD_CHANGE, payload: val });
+              onChange={({ nativeEvent: { eventCount, target, text } }) => {
+                dispatch({ type: CARD_CHANGE, payload: text });
                 if (
-                  val.replace(/[^0-9]/g, "").length >= 8 &&
-                  val.replace(/[^0-9]/g, "").substring(0, 8) !==
+                  text.replace(/[^0-9]/g, "").length >= 8 &&
+                  text.replace(/[^0-9]/g, "").substring(0, 8) !==
                     state.cardBin.bin
                 ) {
                   dispatch({
                     type: BIN_CHANGE,
-                    payload: val.replace(/[^0-9]/g, "").substring(0, 8),
+                    payload: text.replace(/[^0-9]/g, "").substring(0, 8),
                   });
                 }
               }}

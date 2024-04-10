@@ -13,9 +13,9 @@ import { tokenize, formatDataForTokenization } from "./utils/http";
 export const FramesContext = React.createContext({} as FramesContextType);
 
 const Frames = (props: FramesProps) => {
-  // @ts-ignore
   const [state, dispatch]: [FramesState, FramesDispatch] = React.useReducer(
     framesReducer,
+    // @ts-ignore
     {
       cardNumber: null,
       cardBin: {
@@ -28,10 +28,10 @@ const Frames = (props: FramesProps) => {
       cvv: null,
       cvvLength: 3,
       validation: {
-        cardNumber: false,
-        expiryDate: false,
-        cvv: false,
-        card: false,
+        cardNumber: true,
+        expiryDate: true,
+        cvv: true,
+        card: true,
       },
     }
   );
@@ -57,11 +57,13 @@ const Frames = (props: FramesProps) => {
     } catch (error) {
       if (props.config.debug)
         console.info(`Emitting "cardTokenizationFailed"`, error);
+      // @ts-ignore
       if (props.cardTokenizationFailed) props.cardTokenizationFailed(error);
       log(
         "error",
         "com.checkout.frames-mobile-sdk.exception",
         props.config,
+        // @ts-ignore
         error
       );
     }
@@ -77,6 +79,7 @@ const Frames = (props: FramesProps) => {
 
   useEffect(() => {
     if (state.cardNumber !== null) {
+      console.log("TRIGGERS use effect");
       let payload = {
         element: "card-number",
         isValid: state.validation.cardNumber,
