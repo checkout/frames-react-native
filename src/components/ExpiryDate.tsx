@@ -5,7 +5,7 @@ import { FramesConsumer } from "../Frames";
 import { DEFAULT_CARD_EXPIRY_DATE_PLACEHOLDER } from "../utils/constants";
 import { DATE_CHANGE } from "../utils/actions";
 import { FramesFieldProps } from "../types/types";
-
+//@ts-ignore
 const ExpiryDate: React.SFC<FramesFieldProps> = (props) => {
   return (
     <FramesConsumer>
@@ -15,7 +15,7 @@ const ExpiryDate: React.SFC<FramesFieldProps> = (props) => {
         }
         return (
           <TextInput
-            autoCompleteType="cc-exp"
+            autoComplete="cc-exp"
             keyboardType="number-pad"
             maxLength={5}
             returnKeyType="done"
@@ -23,9 +23,9 @@ const ExpiryDate: React.SFC<FramesFieldProps> = (props) => {
             {...props}
             style={[styles.expiryDate, props.style]}
             value={state.expiryDate}
-            onChangeText={(val: string) =>
-              dispatch({ type: DATE_CHANGE, payload: val })
-            }
+            onChange={({ nativeEvent: { eventCount, target, text } }) => {
+              dispatch({ type: DATE_CHANGE, payload: text });
+            }}
           />
         );
       }}
