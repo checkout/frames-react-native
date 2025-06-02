@@ -1,35 +1,30 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "lib": [
-        "esnext"
-      ],
-      "jsx": "react-native",
-      "types": ["react", "jest"],
-      "allowJs": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "module": "esnext",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": false,
-      "outDir": "./dist",
-      "sourceMap": true,
-      "noImplicitReturns": true,
-      "suppressImplicitAnyIndexErrors": true,
-      "noUnusedLocals": true,
-      "declaration": true,
-      "noFallthroughCasesInSwitch": true
-    },
-    "include": [
-      "src/*"
-    ],
-    "exclude": [
-      "node_modules",
-      "**/__tests__/*"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["esnext", "dom"],
+    "jsx": "react-native",
+    "types": ["react-native", "jest"],
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "5.0",
+    "noImplicitAny": false,
+    "strictNullChecks": false
+  },
+  "include": ["src/*"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

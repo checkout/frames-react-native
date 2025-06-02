@@ -16,7 +16,7 @@ const CardNumber: React.FC<FramesCardFieldProps> = (props) => {
         return (
           <View style={styles.wrapper}>
             <TextInput
-              autoCompleteType="cc-number"
+              autoComplete="cc-number"
               keyboardType="number-pad"
               returnKeyType="done"
               placeholder={DEFAULT_CARD_NUMBER_PLACEHOLDER}

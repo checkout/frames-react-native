@@ -1,39 +1,40 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useReducer } from "react";
+import { View, StyleSheet, ImageSourcePropType } from "react-native";
 import { framesReducer } from "./utils/reducer";
 import {
   FramesContextType,
   FramesProps,
   FramesState,
-  FramesDispatch,
+  FrameCardTokenizationFailedEvent,
 } from "./types/types";
 import { log } from "./utils/logger";
 import { tokenize, formatDataForTokenization } from "./utils/http";
 
 export const FramesContext = React.createContext({} as FramesContextType);
 
+const initialState: FramesState = {
+  cardNumber: "",
+  cardBin: {
+    bin: "",
+    scheme: "",
+  },
+  cardType: "",
+  cardIcon: null as unknown as ImageSourcePropType,
+  expiryDate: "",
+  cvv: "",
+  cvvLength: 3,
+  validation: {
+    cardNumber: false,
+    expiryDate: false,
+    cvv: false,
+    card: false,
+  },
+};
+
 const Frames = (props: FramesProps) => {
-  // @ts-ignore
-  const [state, dispatch]: [FramesState, FramesDispatch] = React.useReducer(
+  const [state, dispatch] = useReducer<typeof framesReducer>(
     framesReducer,
-    {
-      cardNumber: null,
-      cardBin: {
-        bin: null,
-        scheme: null,
-      },
-      cardType: null,
-      cardIcon: undefined,
-      expiryDate: null,
-      cvv: null,
-      cvvLength: 3,
-      validation: {
-        cardNumber: false,
-        expiryDate: false,
-        cvv: false,
-        card: false,
-      },
-    }
+    initialState
   );
 
   const submitCard = async () => {
@@ -43,7 +44,7 @@ const Frames = (props: FramesProps) => {
         "com.checkout.frames-mobile-sdk.token_requested",
         props.config
       );
-      let response = await tokenize(
+      const response = await tokenize(
         formatDataForTokenization(state, props.config)
       );
       if (props.config.debug)
@@ -57,12 +58,14 @@ const Frames = (props: FramesProps) => {
     } catch (error) {
       if (props.config.debug)
         console.info(`Emitting "cardTokenizationFailed"`, error);
-      if (props.cardTokenizationFailed) props.cardTokenizationFailed(error);
+      if (props.cardTokenizationFailed && error instanceof Object) {
+        props.cardTokenizationFailed(error as FrameCardTokenizationFailedEvent);
+      }
       log(
         "error",
         "com.checkout.frames-mobile-sdk.exception",
         props.config,
-        error
+        error as object
       );
     }
   };

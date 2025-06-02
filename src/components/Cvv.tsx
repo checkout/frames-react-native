@@ -6,7 +6,7 @@ import { DEFAULT_CVV_PLACEHOLDER } from "../utils/constants";
 import { CVV_CHANGE } from "../utils/actions";
 import { FramesFieldProps } from "../types/types";
 
-const Cvv: React.SFC<FramesFieldProps> = (props) => {
+const Cvv: React.FC<FramesFieldProps> = (props) => {
   return (
     <FramesConsumer>
       {({ state, dispatch }) => {
@@ -15,7 +15,7 @@ const Cvv: React.SFC<FramesFieldProps> = (props) => {
         }
         return (
           <TextInput
-            autoCompleteType="cc-csc"
+            autoComplete="cc-csc"
             keyboardType="number-pad"
             returnKeyType="done"
             secureTextEntry={true}
