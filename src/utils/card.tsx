@@ -11,7 +11,9 @@ const types = [mada, ...creditcardsTypes];
 const cards = new Card(types);
 const cvc = new Cvc(types);
 
-const extendedCardTypeMapWhitelist = { 6011111111111117: "Discover" };
+const extendedCardTypeMapWhitelist: Record<string, IconKey> = {
+  "6011111111111117": "Discover",
+};
 
 export const Icons = {
   Visa: require("../icons/visa.png"),
@@ -30,9 +32,9 @@ export const formatCard = (text: string): string => {
 
 export const getCardType = (text: string) => {
   const sanitizedValue = cards.parse(text);
+  const key = String(sanitizedValue);
   const cardType: IconKey =
-    extendedCardTypeMapWhitelist[sanitizedValue] ||
-    cards.type(sanitizedValue, true);
+    extendedCardTypeMapWhitelist[key] || cards.type(sanitizedValue, true);
   return cardType;
 };
 

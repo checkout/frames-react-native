@@ -38,12 +38,12 @@ interface Validation {
 }
 
 export interface FramesState {
-  cardNumber: string;
+  cardNumber: string | null;
   cardBin: CardBinChangedEvent;
-  cardIcon: ImageSourcePropType;
-  cardType: string;
-  expiryDate: string;
-  cvv: string;
+  cardIcon: ImageSourcePropType | undefined;
+  cardType: string | null;
+  expiryDate: string | null;
+  cvv: string | null;
   cvvLength: number;
   validation: Validation;
 }
@@ -189,8 +189,8 @@ export interface FrameCardTokenizationFailedEvent {
 }
 
 export interface CardBinChangedEvent {
-  bin: string;
-  scheme: string;
+  bin: string | null;
+  scheme: string | null;
 }
 
 export interface SubmitButtonProps extends TouchableOpacityProps {

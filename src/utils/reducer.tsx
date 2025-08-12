@@ -11,34 +11,39 @@ import { getFormattedDate } from "./date";
 import { FramesState } from "../types/types";
 import { CARD_CHANGE, DATE_CHANGE, CVV_CHANGE, BIN_CHANGE } from "./actions";
 
-export const framesReducer = (prevState: FramesState, dispatchArg?: any) => {
-  switch (dispatchArg.type) {
+export type FramesAction = { type: string; payload: any };
+
+export const framesReducer: React.Reducer<FramesState, FramesAction> = (
+  prevState,
+  action
+) => {
+  switch (action.type) {
     case CARD_CHANGE:
       return {
         ...prevState,
-        cardNumber: formatCard(dispatchArg.payload),
-        cardIcon: getIcon(getCardType(dispatchArg.payload)),
-        cardType: getCardType(dispatchArg.payload),
+        cardNumber: formatCard(action.payload),
+        cardIcon: getIcon(getCardType(action.payload)),
+        cardType: getCardType(action.payload),
         validation: {
           ...prevState.validation,
-          cardNumber: isValidCard(formatCard(dispatchArg.payload)),
+          cardNumber: isValidCard(formatCard(action.payload)),
           card:
-            isValidCard(formatCard(dispatchArg.payload)) &&
+            isValidCard(formatCard(action.payload)) &&
             prevState.validation.expiryDate &&
             prevState.validation.cvv,
         },
-        cvvLength: cvvLength(dispatchArg.payload),
+        cvvLength: cvvLength(action.payload),
       };
 
     case DATE_CHANGE:
       return {
         ...prevState,
-        expiryDate: getFormattedDate(dispatchArg.payload),
+        expiryDate: getFormattedDate(action.payload),
         validation: {
           ...prevState.validation,
-          expiryDate: isValidDate(getFormattedDate(dispatchArg.payload)),
+          expiryDate: isValidDate(getFormattedDate(action.payload)),
           card:
-            isValidDate(getFormattedDate(dispatchArg.payload)) &&
+            isValidDate(getFormattedDate(action.payload)) &&
             prevState.validation.cardNumber &&
             prevState.validation.cvv,
         },
@@ -46,12 +51,12 @@ export const framesReducer = (prevState: FramesState, dispatchArg?: any) => {
     case CVV_CHANGE:
       return {
         ...prevState,
-        cvv: dispatchArg.payload,
+        cvv: action.payload,
         validation: {
           ...prevState.validation,
-          cvv: isValidCvv(dispatchArg.payload, prevState.cardNumber),
+          cvv: isValidCvv(action.payload, prevState.cardNumber || ""),
           card:
-            isValidCvv(dispatchArg.payload, prevState.cardNumber) &&
+            isValidCvv(action.payload, prevState.cardNumber || "") &&
             prevState.validation.cardNumber &&
             prevState.validation.expiryDate,
         },
@@ -61,8 +66,8 @@ export const framesReducer = (prevState: FramesState, dispatchArg?: any) => {
         ...prevState,
         cardBin: {
           ...prevState.cardBin,
-          bin: dispatchArg.payload + "",
-          scheme: getCardType(dispatchArg.payload),
+          bin: action.payload + "",
+          scheme: getCardType(action.payload),
         },
       };
     default:

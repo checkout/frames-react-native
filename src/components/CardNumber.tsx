@@ -16,12 +16,12 @@ const CardNumber: React.FC<FramesCardFieldProps> = (props) => {
         return (
           <View style={styles.wrapper}>
             <TextInput
-              autoCompleteType="cc-number"
+              autoComplete="cc-number"
               keyboardType="number-pad"
               returnKeyType="done"
               placeholder={DEFAULT_CARD_NUMBER_PLACEHOLDER}
               {...props}
-              value={state.cardNumber}
+              value={state.cardNumber ?? ""}
               style={[styles.cardNumber, props.style]}
               onChangeText={(val: string) => {
                 dispatch({ type: CARD_CHANGE, payload: val });
