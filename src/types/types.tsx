@@ -114,8 +114,12 @@ interface ValidationChange {
 export type FramesContextType = {
   state: FramesState;
   dispatch: FramesDispatch;
-  submitCard: () => void;
+  submitCard: () => Promise<void>;
 };
+
+export interface FramesRef {
+  submitCard: () => Promise<void>;
+}
 
 export interface TokenizationParams {
   key: string;
@@ -169,6 +173,7 @@ export interface FrameCardTokenizedEvent {
   expiry_month: string;
   expiry_year: string;
   scheme?: Scheme;
+  scheme_local?: string;
   last4: string;
   bin: string;
   card_type?: CardType;

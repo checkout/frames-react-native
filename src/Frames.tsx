@@ -1,13 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useImperativeHandle } from "react";
 import { View, StyleSheet } from "react-native";
 import { framesReducer } from "./utils/reducer";
-import { FramesContextType, FramesProps, FramesState } from "./types/types";
+import {
+  FramesContextType,
+  FramesProps,
+  FramesState,
+  FramesRef,
+} from "./types/types";
 import { log } from "./utils/logger";
 import { tokenize, formatDataForTokenization } from "./utils/http";
 
 export const FramesContext = React.createContext({} as FramesContextType);
 
-const Frames = (props: FramesProps) => {
+const Frames = React.forwardRef<FramesRef, FramesProps>((props, ref) => {
   const initialState: FramesState = {
     cardNumber: null,
     cardBin: {
@@ -60,6 +65,14 @@ const Frames = (props: FramesProps) => {
       );
     }
   };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      submitCard,
+    }),
+    [submitCard]
+  );
 
   useEffect(() => {
     if (state.cardBin.bin !== null) {
@@ -155,7 +168,7 @@ const Frames = (props: FramesProps) => {
       </FramesContext.Provider>
     </View>
   );
-};
+});
 
 export default Frames;
 

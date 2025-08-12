@@ -57,7 +57,7 @@ export default function App() {
       <Frames
         config={{
           debug: true,
-          publicKey: "pk_test_4296fd52-efba-4a38-b6ce-cf0d93639d8a",
+          publicKey: "pk_sbox_eo3yb3urja2ozf6ycgn5kuy7ke#",
         }}
         cardTokenized={(e) => {
           alert(e.token);
@@ -144,7 +144,41 @@ const styles = StyleSheet.create({
 
 ## Trigger tokenization
 
-The tokenization is triggered when the SubmitButton is pressed. The process of getting the token is async, so the outcome of the tokenization will be shared in the _cardTokenized_ or _cardTokenizationFailed_ handlers.
+The tokenization is triggered when the `SubmitButton` is pressed, or programmatically via a ref on `Frames`.
+
+### Programmatic submit via ref
+
+You can attach a ref to `Frames` and call `submitCard()` imperatively:
+
+```tsx
+import React, { useRef } from "react";
+import { Frames, CardNumber, ExpiryDate, Cvv } from "frames-react-native";
+import type { FramesRef } from "frames-react-native";
+
+export const Example = () => {
+  const framesRef = useRef<FramesRef>(null);
+
+  const onCustomPress = () => {
+    framesRef.current?.submitCard();
+  };
+
+  return (
+    <Frames
+      ref={framesRef}
+      config={{ debug: true, publicKey: "pk_test_..." }}
+      cardTokenized={(e) => console.log(e.token)}
+    >
+      <CardNumber />
+      <ExpiryDate />
+      <Cvv />
+      {/* Use your own button UI */}
+      <MyCustomButton onPress={onCustomPress} />
+    </Frames>
+  );
+};
+```
+
+The process of getting the token is async, so the outcome of the tokenization will be shared in the `cardTokenized` or `cardTokenizationFailed` handlers.
 
 ## The `props` for the Frames wrapper component
 

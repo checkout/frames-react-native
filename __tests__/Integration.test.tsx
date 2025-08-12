@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 
 import {
@@ -8,6 +8,7 @@ import {
   Cvv,
   SubmitButton,
 } from "../src/index";
+import type { FramesRef } from "../src/index";
 
 // Mock network-dependent modules to avoid real HTTP requests
 jest.mock("../src/utils/http", () => {
@@ -32,7 +33,7 @@ describe("Frames integration", () => {
   const validCvv = "123";
 
   const config = {
-    publicKey: "pk_test_4296fd52-efba-4a38-b6ce-cf0d93639d8a",
+    publicKey: "pk_sbox_eo3yb3urja2ozf6ycgn5kuy7ke#",
     debug: true,
     cardholder: {
       name: "John Doe",
@@ -46,6 +47,10 @@ describe("Frames integration", () => {
       },
     },
   };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   it("emits validation and bin events, and tokenizes on submit", async () => {
     const { tokenize } = require("../src/utils/http");
@@ -133,5 +138,53 @@ describe("Frames integration", () => {
     await waitFor(() => expect(tokenize).toHaveBeenCalledTimes(1));
     expect(cardTokenized).toHaveBeenCalledWith(mockTokenResponse);
     expect(cardTokenizationFailed).not.toHaveBeenCalled();
+  });
+
+  it("allows submitting via Frames ref submitCard()", async () => {
+    const { tokenize } = require("../src/utils/http");
+
+    const mockTokenResponse = {
+      type: "card",
+      token: "tok_test_ref_123",
+      expires_on: "2030-12-31T23:59:59Z",
+      expiry_month: "12",
+      expiry_year: "2030",
+      scheme: "Visa",
+      last4: "4242",
+      bin: "424242",
+    };
+
+    tokenize.mockResolvedValueOnce(mockTokenResponse);
+
+    const cardTokenized = jest.fn();
+
+    const ref = createRef<FramesRef>();
+
+    const screen = render(
+      <Frames config={config} cardTokenized={cardTokenized} ref={ref}>
+        <CardNumber />
+        <ExpiryDate />
+        <Cvv />
+      </Frames>
+    );
+
+    const cardNumberInput = screen.getByPlaceholderText("•••• •••• •••• ••••");
+    const expiryInput = screen.getByPlaceholderText("MM/YY");
+    const cvvInput = screen.getByPlaceholderText("•••");
+
+    // Fill valid data
+    fireEvent.changeText(cardNumberInput, validVisa);
+    fireEvent.changeText(expiryInput, validExpiry);
+    fireEvent.changeText(cvvInput, validCvv);
+
+    // Call submit via ref
+    await waitFor(async () => {
+      expect(ref.current).not.toBeNull();
+    });
+
+    await ref.current!.submitCard();
+
+    await waitFor(() => expect(tokenize).toHaveBeenCalledTimes(1));
+    expect(cardTokenized).toHaveBeenCalledWith(mockTokenResponse);
   });
 });
