@@ -24,15 +24,16 @@ const CardNumber: React.FC<FramesCardFieldProps> = (props) => {
               value={state.cardNumber ?? ""}
               style={[styles.cardNumber, props.style]}
               onChangeText={(val: string) => {
-                dispatch({ type: CARD_CHANGE, payload: val });
+                const safeValue = val ?? "";
+                dispatch({ type: CARD_CHANGE, payload: safeValue });
+                const digits = safeValue.replace(/[^0-9]/g, "");
                 if (
-                  val.replace(/[^0-9]/g, "").length >= 8 &&
-                  val.replace(/[^0-9]/g, "").substring(0, 8) !==
-                    state.cardBin.bin
+                  digits.length >= 8 &&
+                  digits.substring(0, 8) !== state.cardBin.bin
                 ) {
                   dispatch({
                     type: BIN_CHANGE,
-                    payload: val.replace(/[^0-9]/g, "").substring(0, 8),
+                    payload: digits.substring(0, 8),
                   });
                 }
               }}

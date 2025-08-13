@@ -170,8 +170,8 @@ export interface FrameCardTokenizedEvent {
   type: string;
   token: string;
   expires_on: string;
-  expiry_month: string;
-  expiry_year: string;
+  expiry_month: number;
+  expiry_year: number;
   scheme?: Scheme;
   scheme_local?: string;
   last4: string;

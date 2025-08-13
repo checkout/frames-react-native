@@ -42,11 +42,17 @@ export const formatDataForTokenization = (
   state: FramesState,
   config: FramesConfig
 ): TokenizationParams => {
-  let number = state.cardNumber!.replace(/[^A-Z0-9]+/gi, "");
-  let expiry_month = state.expiryDate!.split(EXPIRY_DATE_DELIMITER)[0];
-  let expiry_year = `${new Date().getFullYear().toString().substring(0, 2)}${
-    state.expiryDate!.split(EXPIRY_DATE_DELIMITER)[1]
-  }`;
+  const rawNumber = state.cardNumber || "";
+  const number = rawNumber.replace(/[^A-Z0-9]+/gi, "");
+
+  const rawExpiry = state.expiryDate || "";
+  const [expiry_month = "", expiryYearSuffix] = rawExpiry.split(
+    EXPIRY_DATE_DELIMITER
+  );
+  const currentCentury = new Date().getFullYear().toString().substring(0, 2);
+  const expiry_year = expiryYearSuffix
+    ? `${currentCentury}${expiryYearSuffix}`
+    : "";
 
   let billing_address: GatewayBillingAddress = {
     address_line1: "",
@@ -83,7 +89,7 @@ export const formatDataForTokenization = (
       number,
       expiry_month,
       expiry_year,
-      cvv: state.cvv!,
+      cvv: state.cvv || "",
       name: config.cardholder?.name,
       billing_address,
       phone: {
