@@ -1,6 +1,6 @@
 {
   "name": "frames-react-native",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Frames React Native",
   "main": "dist/index.js",
   "scripts": {
