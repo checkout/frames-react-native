@@ -16,10 +16,6 @@ Start accepting online card payments in just a few minutes with Frames. It's qui
 
 > Frames is meant to be used in conjunction with the rest of your checkout page elements as opposed to being an independent view. That way, you have full control of the UI, and you can implement other payment methods or collect other details (like billing details) alongside it.
 
-<p align="center">
-	<img src="https://s3.gifyu.com/images/FramesforAndroid.png" alt="Demo frames react native" width="500px"/>
-</p>
-
 # :rocket: Install
 
 ```bash
