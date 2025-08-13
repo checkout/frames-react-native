@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import {
   TokenizationParams,
   FramesState,
@@ -43,10 +42,10 @@ export const formatDataForTokenization = (
   state: FramesState,
   config: FramesConfig
 ): TokenizationParams => {
-  let number = state.cardNumber.replace(/[^A-Z0-9]+/gi, "");
-  let expiry_month = state.expiryDate.split(EXPIRY_DATE_DELIMITER)[0];
+  let number = state.cardNumber!.replace(/[^A-Z0-9]+/gi, "");
+  let expiry_month = state.expiryDate!.split(EXPIRY_DATE_DELIMITER)[0];
   let expiry_year = `${new Date().getFullYear().toString().substring(0, 2)}${
-    state.expiryDate.split(EXPIRY_DATE_DELIMITER)[1]
+    state.expiryDate!.split(EXPIRY_DATE_DELIMITER)[1]
   }`;
 
   let billing_address: GatewayBillingAddress = {
@@ -84,7 +83,7 @@ export const formatDataForTokenization = (
       number,
       expiry_month,
       expiry_year,
-      cvv: state.cvv,
+      cvv: state.cvv!,
       name: config.cardholder?.name,
       billing_address,
       phone: {

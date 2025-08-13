@@ -3,7 +3,7 @@ import { getFormattedDate } from "../src/utils/date";
 import { getEnvironment } from "../src/utils/http";
 import { getEnvironment as loggerGetEnvironment } from "../src/utils/logger";
 
-const PK_SB = "pk_test_4296fd52-efba-4a38-b6ce-cf0d93639d8a";
+const PK_SB = "pk_sbox_eo3yb3urja2ozf6ycgn5kuy7ke#";
 const PK_PROD = "pk_4296fd52-efba-4a38-b6ce-cf0d93639d8a"; // fake key
 
 describe("Date", () => {

@@ -38,12 +38,12 @@ interface Validation {
 }
 
 export interface FramesState {
-  cardNumber: string;
+  cardNumber: string | null;
   cardBin: CardBinChangedEvent;
-  cardIcon: ImageSourcePropType;
-  cardType: string;
-  expiryDate: string;
-  cvv: string;
+  cardIcon: ImageSourcePropType | undefined;
+  cardType: string | null;
+  expiryDate: string | null;
+  cvv: string | null;
   cvvLength: number;
   validation: Validation;
 }
@@ -114,8 +114,12 @@ interface ValidationChange {
 export type FramesContextType = {
   state: FramesState;
   dispatch: FramesDispatch;
-  submitCard: () => void;
+  submitCard: () => Promise<void>;
 };
+
+export interface FramesRef {
+  submitCard: () => Promise<void>;
+}
 
 export interface TokenizationParams {
   key: string;
@@ -169,6 +173,7 @@ export interface FrameCardTokenizedEvent {
   expiry_month: string;
   expiry_year: string;
   scheme?: Scheme;
+  scheme_local?: string;
   last4: string;
   bin: string;
   card_type?: CardType;
@@ -189,8 +194,8 @@ export interface FrameCardTokenizationFailedEvent {
 }
 
 export interface CardBinChangedEvent {
-  bin: string;
-  scheme: string;
+  bin: string | null;
+  scheme: string | null;
 }
 
 export interface SubmitButtonProps extends TouchableOpacityProps {

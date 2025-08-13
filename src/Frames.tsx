@@ -1,40 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useImperativeHandle } from "react";
 import { View, StyleSheet } from "react-native";
 import { framesReducer } from "./utils/reducer";
 import {
   FramesContextType,
   FramesProps,
   FramesState,
-  FramesDispatch,
+  FramesRef,
 } from "./types/types";
 import { log } from "./utils/logger";
 import { tokenize, formatDataForTokenization } from "./utils/http";
 
 export const FramesContext = React.createContext({} as FramesContextType);
 
-const Frames = (props: FramesProps) => {
-  // @ts-ignore
-  const [state, dispatch]: [FramesState, FramesDispatch] = React.useReducer(
-    framesReducer,
-    {
-      cardNumber: null,
-      cardBin: {
-        bin: null,
-        scheme: null,
-      },
-      cardType: null,
-      cardIcon: undefined,
-      expiryDate: null,
-      cvv: null,
-      cvvLength: 3,
-      validation: {
-        cardNumber: false,
-        expiryDate: false,
-        cvv: false,
-        card: false,
-      },
-    }
-  );
+const Frames = React.forwardRef<FramesRef, FramesProps>((props, ref) => {
+  const initialState: FramesState = {
+    cardNumber: null,
+    cardBin: {
+      bin: null,
+      scheme: null,
+    },
+    cardType: null,
+    cardIcon: undefined,
+    expiryDate: null,
+    cvv: null,
+    cvvLength: 3,
+    validation: {
+      cardNumber: false,
+      expiryDate: false,
+      cvv: false,
+      card: false,
+    },
+  };
+
+  const [state, dispatch] = React.useReducer(framesReducer, initialState);
 
   const submitCard = async () => {
     try {
@@ -57,15 +55,24 @@ const Frames = (props: FramesProps) => {
     } catch (error) {
       if (props.config.debug)
         console.info(`Emitting "cardTokenizationFailed"`, error);
-      if (props.cardTokenizationFailed) props.cardTokenizationFailed(error);
+      if (props.cardTokenizationFailed)
+        props.cardTokenizationFailed(error as any);
       log(
         "error",
         "com.checkout.frames-mobile-sdk.exception",
         props.config,
-        error
+        (error as object) || {}
       );
     }
   };
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      submitCard,
+    }),
+    [submitCard]
+  );
 
   useEffect(() => {
     if (state.cardBin.bin !== null) {
@@ -161,7 +168,7 @@ const Frames = (props: FramesProps) => {
       </FramesContext.Provider>
     </View>
   );
-};
+});
 
 export default Frames;
 

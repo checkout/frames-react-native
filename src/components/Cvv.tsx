@@ -6,7 +6,7 @@ import { DEFAULT_CVV_PLACEHOLDER } from "../utils/constants";
 import { CVV_CHANGE } from "../utils/actions";
 import { FramesFieldProps } from "../types/types";
 
-const Cvv: React.SFC<FramesFieldProps> = (props) => {
+const Cvv: React.FC<FramesFieldProps> = (props) => {
   return (
     <FramesConsumer>
       {({ state, dispatch }) => {
@@ -15,14 +15,14 @@ const Cvv: React.SFC<FramesFieldProps> = (props) => {
         }
         return (
           <TextInput
-            autoCompleteType="cc-csc"
+            autoComplete="cc-csc"
             keyboardType="number-pad"
             returnKeyType="done"
             secureTextEntry={true}
             placeholder={DEFAULT_CVV_PLACEHOLDER}
             {...props}
             style={[styles.cvv, props.style]}
-            value={state.cvv}
+            value={state.cvv ?? ""}
             maxLength={state.cvvLength}
             onChangeText={(val: string) =>
               dispatch({ type: CVV_CHANGE, payload: val })
