@@ -59,8 +59,8 @@ describe("Frames integration", () => {
       type: "card",
       token: "tok_test_123",
       expires_on: "2030-12-31T23:59:59Z",
-      expiry_month: "12",
-      expiry_year: "2030",
+      expiry_month: 12,
+      expiry_year: 2030,
       scheme: "Visa",
       last4: "4242",
       bin: "424242",
@@ -147,8 +147,8 @@ describe("Frames integration", () => {
       type: "card",
       token: "tok_test_ref_123",
       expires_on: "2030-12-31T23:59:59Z",
-      expiry_month: "12",
-      expiry_year: "2030",
+      expiry_month: 12,
+      expiry_year: 2030,
       scheme: "Visa",
       last4: "4242",
       bin: "424242",
@@ -186,5 +186,47 @@ describe("Frames integration", () => {
 
     await waitFor(() => expect(tokenize).toHaveBeenCalledTimes(1));
     expect(cardTokenized).toHaveBeenCalledWith(mockTokenResponse);
+  });
+
+  it("SubmitButton triggers submitCard and forwards onPress to consumer", async () => {
+    const { tokenize } = require("../src/utils/http");
+
+    const mockTokenResponse = {
+      type: "card",
+      token: "tok_test_press_123",
+      expires_on: "2030-12-31T23:59:59Z",
+      expiry_month: 12,
+      expiry_year: 2030,
+      scheme: "Visa",
+      last4: "4242",
+      bin: "424242",
+    };
+
+    tokenize.mockResolvedValueOnce(mockTokenResponse);
+
+    const onPressSpy = jest.fn();
+    const cardTokenized = jest.fn();
+
+    const screen = render(
+      <Frames config={config} cardTokenized={cardTokenized}>
+        <CardNumber />
+        <ExpiryDate />
+        <Cvv />
+        <SubmitButton title="Pay" onPress={onPressSpy} />
+      </Frames>
+    );
+
+    fireEvent.changeText(
+      screen.getByPlaceholderText("•••• •••• •••• ••••"),
+      validVisa
+    );
+    fireEvent.changeText(screen.getByPlaceholderText("MM/YY"), validExpiry);
+    fireEvent.changeText(screen.getByPlaceholderText("•••"), validCvv);
+
+    fireEvent.press(screen.getByText("Pay"));
+
+    await waitFor(() => expect(tokenize).toHaveBeenCalledTimes(1));
+    expect(cardTokenized).toHaveBeenCalledWith(mockTokenResponse);
+    expect(onPressSpy).toHaveBeenCalledTimes(1);
   });
 });
