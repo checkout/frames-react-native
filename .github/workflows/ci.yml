@@ -12,4 +12,5 @@ jobs:
         with:
           node-version: 21
       - run: npm ci
+      - run: npm audit --omit=dev
       - run: npm test

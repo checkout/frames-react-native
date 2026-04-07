@@ -1,6 +1,6 @@
 {
   "name": "frames-react-native",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Frames React Native",
   "main": "dist/index.js",
   "scripts": {
@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "creditcards": "^4.2.0",
-    "creditcards-types": "^3.2.0",
-    "expo": "^53.0.0",
-    "node-fetch": "^2.6.7"
+    "creditcards-types": "^3.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-native": ">=0.60.0"
   },
   "keywords": [],
   "author": "",
@@ -21,21 +23,16 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": ">=7.23.2",
     "@babel/preset-react": "^7.12.13",
-    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/jest-native": "3.3.0",
     "@testing-library/react-native": "^7.1.0",
     "@types/jest": "^26.0.20",
-    "@types/node-fetch": "^2.5.8",
     "@types/react": "^18.2.75",
     "@types/react-test-renderer": "^18.0.7",
-    "@types/uuid": "^9.0.1",
-    "babel-preset-expo": "^11.0.0",
     "jest": ">=29.7.0",
-    "jest-expo": "^53.0.0",
     "react": "~18.2.0",
     "react-native": "~0.73.6",
     "react-test-renderer": "18.2.0",
-    "ts-jest": "^29.1.2",
     "typescript": "~5.4.4"
   },
   "jest": {

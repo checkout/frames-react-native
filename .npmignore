@@ -1,4 +1,5 @@
 /src
+/.github
 .babelrc
 README.md
 package-lock.json
@@ -9,5 +10,8 @@ webpack.config.js
 .travis.yml
 **/.DS_Store
 .expo-shared
-babel.config.js    
-tsconfig.json      
+babel.config.js
+tsconfig.json
+/__tests__
+/__mocks__
+/test-app
