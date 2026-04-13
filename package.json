@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "creditcards": "^4.2.0",
-    "creditcards-types": "^3.2.0"
+    "creditcards-types": "^4.0.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
