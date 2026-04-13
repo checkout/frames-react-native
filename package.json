@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "creditcards": "^4.2.0",
+    "creditcards": "^5.0.0",
     "creditcards-types": "^3.2.0"
   },
   "peerDependencies": {
