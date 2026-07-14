@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   test-and-coverage:
     runs-on: ubuntu-latest
@@ -25,12 +28,33 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
 
-  publish-npm:
+  bump-version:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: test-and-coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 21
+      - name: Bump patch version and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          npm version patch -m "chore(release): v%s [skip ci]"
+          git push origin HEAD:main --follow-tags
+
+  publish-npm:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: bump-version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: 21
