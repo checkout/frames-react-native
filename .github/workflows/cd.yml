@@ -9,59 +9,99 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
+
+# Release runs on main never overlap; PR runs are not affected.
+concurrency:
+  group: ${{ github.event_name == 'push' && 'release' || github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   test-and-coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 21
       - run: npm ci
       - run: npm audit --omit=dev
       - run: npm test
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
 
-  bump-version:
+  # Releases are cut by a release PR that bumps the version in package.json.
+  # Any other merge to main leaves the version unchanged and publishes nothing.
+  check-version:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: test-and-coverage
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish: ${{ steps.version.outputs.publish }}
+      release: ${{ steps.version.outputs.release }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: main
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 21
-      - name: Bump patch version and push
+          persist-credentials: false
+      - id: version
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          npm version patch -m "chore(release): v%s [skip ci]"
-          git push origin HEAD:main --follow-tags
+          VERSION=$(node -p "require('./package.json').version")
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::package.json version is not a valid semver"
+            exit 1
+          fi
+          ON_NPM=false
+          if npm view "frames-react-native@$VERSION" version > /dev/null 2>&1; then ON_NPM=true; fi
+          TAGS=$(git ls-remote --tags origin "refs/tags/v$VERSION") || { echo "::error::Could not list tags"; exit 1; }
+          TAGGED=false
+          if [ -n "$TAGS" ]; then TAGGED=true; fi
+          # A tag without a published version points to a commit that was never released.
+          if [ "$ON_NPM" = false ] && [ "$TAGGED" = true ]; then
+            echo "::error::Tag v$VERSION exists but $VERSION is not on npm; bump to a new version"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "publish=$([ "$ON_NPM" = false ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "release=$([ "$TAGGED" = false ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
   publish-npm:
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    needs: bump-version
+    needs: check-version
+    if: ${{ needs.check-version.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
+    # Must match the environment configured on the npm trusted publisher
+    environment: production
+    permissions:
+      contents: read
+      id-token: write # npm trusted publishing (OIDC)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: main
-      - uses: actions/setup-node@v4
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 21
+          # Trusted publishing needs npm >= 11.5.1, which needs Node 22.
+          node-version: 22
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: npm install -g npm@11.21.0 --ignore-scripts && npm --version
+      - run: npm ci --ignore-scripts
       - run: npm run build
       - run: cp -R src/icons dist/
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
+      # No token: npm exchanges the GitHub OIDC token with the registry
+      # and publishes with provenance.
+      - run: npm publish --provenance --access public --ignore-scripts
+
+  # Only after a publish in this run, so the tag always marks the published commit.
+  # If this job fails, use "Re-run failed jobs" to keep the earlier outputs.
+  # Keep the implicit success() here: always() or !cancelled() would tag skipped publishes.
+  github-release:
+    needs: [check-version, publish-npm]
+    if: ${{ needs.check-version.outputs.release == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the tag and the GitHub release
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.check-version.outputs.version }}
+        run: gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "v$VERSION" --generate-notes
