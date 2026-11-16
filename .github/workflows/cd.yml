@@ -51,6 +51,7 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     needs: bump-version
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v4
         with:
@@ -63,5 +64,3 @@ jobs:
       - run: npm run build
       - run: cp -R src/icons dist/
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
