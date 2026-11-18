@@ -19,6 +19,10 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/checkout/frames-react-native.git"
+  },
   "overrides": {
     "shell-quote": "^1.8.4",
     "@babel/plugin-transform-modules-systemjs": "^7.29.4",
